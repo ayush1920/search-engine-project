@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}SEH | Search{% endblock %}
+{% block content %}
+<h2>Search Results</h2>
+
+<h4>Search time taken: {{time_taken}} seconds</h4>
+
+Search Query : <strong>{{search_query}}</strong><br><br><br>
+
+{% if result_from_db %}
+		<h6>Your query matched a previous search history</h6> 
+		<p>
+			Would you like to
+			<a href="/search/?search={{search_query}}&force=True">initiate a new search all around</a>
+		  </p>
+	<h6>Found the file in the following paths: </h6>
+	{% for i in result_from_db %}
+			{{forloop.counter}}. &nbsp;&nbsp;<strong>{{i.result}}</strong><br>
+		{% endfor %}
+{% else %}
+	{% if result %}
+		<h6>Found the file in the following paths. </h6>
+		{% for i in result %}
+			{{forloop.counter}}. &nbsp;&nbsp;<strong>{{i}}</strong><br>
+		{% endfor %}
+	{% else %}
+		<h5 class="text-danger">No results found for your search.</h5>
+	{% endif %}
+{% endif %}
+{% endblock %}

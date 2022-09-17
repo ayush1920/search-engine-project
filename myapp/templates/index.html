@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}SEH | Home{% endblock %}
+{% block content %}
+
+
+<div class="jumbotron">
+  <h2 class="display-4">Search Drives</h2>
+  <p class="lead">Search any drive of your computer for any file.</p>
+  <hr class="my-4">
+  <br>
+  <form class="form" action="/search/">
+  	<div class="row">
+  		<div class="col-sm-12 col-md-8">
+    		<input name="search" class="form-control" type="search" placeholder="Search" aria-label="Search" autocomplete="off" required>
+    	</div>
+
+    	<div class="col-sm-12 col-md-3">
+	    	<select name="selected_disk" class="form-control">
+				<option value="all">All</option>
+	    		{% for disk in disks %}
+	    			<option value="{{disk.device}}">{{disk.device}}</option>
+	    		{% endfor %}
+	    	</select>
+    	</div>
+    	<div class="col-sm-12 col-md-1">
+    		<button class="btn btn-outline-success btn-block" type="submit"><i class="bi bi-search"></i></button>
+    	</div>
+	</div>
+	<div class="row">
+		<div class="col col-md-8 mt-4">
+    		<input name="dir_path" class="form-control" type="search" placeholder="Directory Path" aria-label="Search" autocomplete="off">
+			<p class="danger">{{msg}}</p>
+		</div>
+
+		<div class="col col-md-3 mt-3">
+			<div class="row">
+				<label for="thread_count" class="col">Number of Threads: </label>
+				<select name="thread_count" class="col form-control">
+					<option value="1">1</option>
+					<option value="3">3</option>
+					<option value="5" selected>5</option>
+					<option value="10">10</option>
+				</select>
+			</div>
+    	</div>
+
+	</div>
+  </form>
+</div>
+
+<br>
+<hr class="my-4">
+<br>
+
+<section>
+	<div class="list-group">
+	  <a href="#" class="list-group-item list-group-item-action bg-dark text-white" aria-current="true">
+	    My Computer
+	  </a>
+	  <br>
+	  <div class="row">
+			{% for disk, pct in use %}
+				<div class="col">
+					<i class="bi bi-wallet2"></i> &nbsp;&nbsp; Local Disk ({{disk.device}})
+					<div class="progress">
+					  <div class="progress-bar bg-info" role="progressbar" aria-label="Example with label" style="width: {{pct}}%;" aria-valuenow="{{25}}" aria-valuemin="0" aria-valuemax="100">{{pct}}</div>
+					</div>
+				</div>
+			{% endfor %}
+			</div>
+	</div>
+</section>
+
+{% endblock %}
